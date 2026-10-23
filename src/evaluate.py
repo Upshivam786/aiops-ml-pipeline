@@ -12,6 +12,10 @@ mlflow.set_tracking_uri("sqlite:///mlflow.db")
 client = MlflowClient()
 
 versions = client.search_model_versions(f"name='{NAME}'")
+if not versions:
+    print(f"No registered versions of '{NAME}'. Run src/train.py first.")
+    sys.exit(1)
+
 latest = max(versions, key=lambda v: int(v.version))
 model = mlflow.sklearn.load_model(f"models:/{NAME}/{latest.version}")
 

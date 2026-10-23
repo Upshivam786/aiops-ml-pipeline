@@ -37,7 +37,12 @@ def main(n_estimators: int, max_depth):
 
         mlflow.log_params({"n_estimators": n_estimators, "max_depth": max_depth})
         mlflow.log_metric("f1", f1)
-        mlflow.sklearn.log_model(model, "model", registered_model_name="jev-model")
+        mlflow.sklearn.log_model(
+            model,
+            name="model",
+            registered_model_name="jev-model",
+            skops_trusted_types=["sklearn.tree._tree.Tree"],
+        )
         print(f"f1={f1:.4f}")
 
 
