@@ -1,5 +1,6 @@
 """Compare training data against a production batch and flag data drift."""
 import argparse
+import os
 import json
 import sys
 
@@ -22,6 +23,7 @@ def make_batch(mode: str, n: int = 300) -> pd.DataFrame:
 
 
 def main(mode: str, threshold: float) -> int:
+    os.makedirs("reports", exist_ok=True)
     reference = pd.read_csv("data/train.csv")[FEATURES]
     current = make_batch(mode)
 

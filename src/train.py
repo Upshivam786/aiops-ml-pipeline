@@ -1,5 +1,6 @@
-import os
 import argparse
+import os
+
 import mlflow
 import mlflow.sklearn
 import pandas as pd
@@ -21,12 +22,26 @@ def load_data() -> pd.DataFrame:
     return df
 
 
-def main(n_estimators: int, max_depth):
+def apply_drift(df: pd.DataFrame) -> pd.DataFrame:
+    """Simulate the world shifting (same shifts as the drift check)."""
+    df = df.copy()
+    df["f0"] += 2.0
+    df["f1"] -= 1.5
+    df["f2"] += 1.0
+    df["f3"] *= 2.0
+    return df
+
+
+def main(n_estimators: int, max_depth, drift: bool):
     os.makedirs("data", exist_ok=True)
     df = load_data()
+    if drift:
+        df = apply_drift(df)
+    prefix = "new_" if drift else ""
+
     train_df, test_df = train_test_split(df, test_size=0.2, random_state=42)
-    train_df.to_csv("data/train.csv", index=False)
-    test_df.to_csv("data/test.csv", index=False)
+    train_df.to_csv(f"data/{prefix}train.csv", index=False)
+    test_df.to_csv(f"data/{prefix}test.csv", index=False)
 
     X_train, y_train = train_df.drop(columns="target"), train_df["target"]
     X_test, y_test = test_df.drop(columns="target"), test_df["target"]
@@ -37,7 +52,9 @@ def main(n_estimators: int, max_depth):
         ).fit(X_train, y_train)
         f1 = f1_score(y_test, model.predict(X_test), average="weighted")
 
-        mlflow.log_params({"n_estimators": n_estimators, "max_depth": max_depth})
+        mlflow.log_params(
+            {"n_estimators": n_estimators, "max_depth": max_depth, "drifted_world": drift}
+        )
         mlflow.log_metric("f1", f1)
         mlflow.sklearn.log_model(
             model,
@@ -52,5 +69,6 @@ if __name__ == "__main__":
     p = argparse.ArgumentParser()
     p.add_argument("--n-estimators", type=int, default=200)
     p.add_argument("--max-depth", type=int, default=None)
+    p.add_argument("--drift", action="store_true", help="train on the shifted world")
     a = p.parse_args()
-    main(a.n_estimators, a.max_depth)
+    main(a.n_estimators, a.max_depth, a.drift)
