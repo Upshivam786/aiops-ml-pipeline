@@ -1,0 +1,7 @@
+apiVersion: 1
+providers:
+  - name: jev
+    folder: JEV
+    type: file
+    options:
+      path: /var/lib/grafana/dashboards
