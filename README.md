@@ -94,7 +94,7 @@ A scheduled GitHub Actions workflow (`drift-retrain.yml`) runs the same loop wee
 
 - [x] Data drift detection with Evidently
 - [x] Automated retraining that promotes a model only if it beats production
-- [ ] Prometheus alert rules
+- [x] Prometheus alert rules (API down, 5xx rate, p95 latency)
 - [ ] Real production-traffic logging instead of simulated batches
 
 ## Screenshots
