@@ -1,13 +1,13 @@
 groups:
-  - name: jev-api
+  - name: ml-api
     rules:
       - alert: ApiDown
-        expr: up{job="jev-api"} == 0
+        expr: up{job="ml-api"} == 0
         for: 30s
         labels:
           severity: critical
         annotations:
-          summary: "JEV API is not responding to Prometheus scrapes"
+          summary: "ML API is not responding to Prometheus scrapes"
       - alert: HighErrorRate
         expr: sum(rate(http_requests_total{status="5xx"}[1m])) / sum(rate(http_requests_total[1m])) > 0.05
         for: 1m

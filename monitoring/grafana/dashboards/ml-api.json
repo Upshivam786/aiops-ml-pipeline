@@ -1,6 +1,6 @@
 {
-  "uid": "jev-api",
-  "title": "JEV API",
+  "uid": "ml-api",
+  "title": "ML API",
   "schemaVersion": 39,
   "version": 1,
   "refresh": "5s",
@@ -129,7 +129,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (predicted_class) (rate(jev_predictions_total[1m]))",
+          "expr": "sum by (predicted_class) (rate(ml_predictions_total[1m]))",
           "legendFormat": "{{predicted_class}}"
         }
       ]

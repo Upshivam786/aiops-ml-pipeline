@@ -9,7 +9,7 @@ from mlflow.tracking import MlflowClient
 from sklearn.metrics import f1_score
 
 THRESHOLD = 0.80
-NAME = "jev-model"
+NAME = "demo-classifier"
 
 
 def score(version, X, y) -> float:

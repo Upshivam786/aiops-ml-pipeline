@@ -1,7 +1,7 @@
-# JEV MLOps Pipeline
+# AIOps ML Pipeline
 
-![CI](https://github.com/Upshivam786/jev-mlops-pipeline/actions/workflows/ci.yml/badge.svg)
-![Drift retrain](https://github.com/Upshivam786/jev-mlops-pipeline/actions/workflows/drift-retrain.yml/badge.svg)
+![CI](https://github.com/Upshivam786/aiops-ml-pipeline/actions/workflows/ci.yml/badge.svg)
+![Drift retrain](https://github.com/Upshivam786/aiops-ml-pipeline/actions/workflows/drift-retrain.yml/badge.svg)
 
 An end-to-end MLOps demo: train a scikit-learn model, track experiments, gate promotion on quality, serve it over an API, and monitor it in production. Everything runs locally with Docker Compose and is tested in CI.
 
@@ -13,7 +13,7 @@ An end-to-end MLOps demo: train a scikit-learn model, track experiments, gate pr
 flowchart LR
     T[train.py] -->|params, metrics, model| M[(MLflow tracking + registry)]
     E[evaluate.py<br/>F1 quality gate] -->|promote @production| M
-    M -->|load models:/jev-model@production| A[FastAPI service]
+    M -->|load models:/demo-classifier@production| A[FastAPI service]
     A -->|/metrics| P[Prometheus]
     P --> G[Grafana dashboard]
     CI[GitHub Actions] -.->|train, gate, test, build| T
@@ -24,7 +24,7 @@ flowchart LR
 - **Experiment tracking:** every training run logs parameters, F1 and the model to MLflow.
 - **Model registry with a quality gate:** `evaluate.py` fails the pipeline if F1 is below 0.80, and only then sets the `production` alias.
 - **Serving:** a FastAPI app loads whichever version holds `@production`, so promoting a model needs no code change.
-- **Observability:** Prometheus scrapes request rate, latency and errors, plus a custom `jev_predictions_total` counter. A Grafana dashboard is provisioned as code.
+- **Observability:** Prometheus scrapes request rate, latency and errors, plus a custom `ml_predictions_total` counter. A Grafana dashboard is provisioned as code.
 - **CI:** GitHub Actions trains a model, runs the quality gate, runs pytest, and builds the Docker image.
 
 ## Quick start

@@ -10,7 +10,7 @@ from sklearn.metrics import f1_score
 from sklearn.model_selection import train_test_split
 
 mlflow.set_tracking_uri(os.environ.get("MLFLOW_TRACKING_URI", "sqlite:///mlflow.db"))
-mlflow.set_experiment("jev-model")
+mlflow.set_experiment("demo-classifier")
 
 
 def load_data() -> pd.DataFrame:
@@ -59,7 +59,7 @@ def main(n_estimators: int, max_depth, drift: bool):
         mlflow.sklearn.log_model(
             model,
             name="model",
-            registered_model_name="jev-model",
+            registered_model_name="demo-classifier",
             skops_trusted_types=["sklearn.tree._tree.Tree"],
         )
         print(f"f1={f1:.4f}")

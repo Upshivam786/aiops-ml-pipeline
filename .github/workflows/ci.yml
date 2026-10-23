@@ -28,4 +28,4 @@ jobs:
     needs: test
     steps:
       - uses: actions/checkout@v4
-      - run: docker build -t jev-api .
+      - run: docker build -t ml-api .

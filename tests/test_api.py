@@ -33,4 +33,4 @@ def test_predict_rejects_missing_field(client):
 def test_metrics_expose_prediction_counter(client):
     client.post("/predict", json=VALID)
     body = client.get("/metrics").text
-    assert "jev_predictions_total" in body
+    assert "ml_predictions_total" in body

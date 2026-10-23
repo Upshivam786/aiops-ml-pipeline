@@ -8,15 +8,15 @@ from prometheus_fastapi_instrumentator import Instrumentator
 from pydantic import BaseModel
 
 mlflow.set_tracking_uri(os.environ.get("MLFLOW_TRACKING_URI", "sqlite:///mlflow.db"))
-MODEL_URI = "models:/jev-model@production"
+MODEL_URI = "models:/demo-classifier@production"
 
 model = mlflow.sklearn.load_model(MODEL_URI)
 
 PREDICTIONS = Counter(
-    "jev_predictions_total", "Predictions by class", ["predicted_class"]
+    "ml_predictions_total", "Predictions by class", ["predicted_class"]
 )
 
-app = FastAPI(title="JEV model API")
+app = FastAPI(title="ML model API")
 Instrumentator().instrument(app).expose(app)  # adds /metrics
 
 
