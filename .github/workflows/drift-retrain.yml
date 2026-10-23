@@ -1,0 +1,33 @@
+name: drift-retrain
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "Simulated production data"
+        type: choice
+        options: [normal, drift]
+        default: drift
+  schedule:
+    - cron: "0 3 * * 1"   # Mondays 03:00 UTC
+
+jobs:
+  drift-retrain:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+          cache: pip
+      - run: pip install -r requirements.txt
+      - name: Baseline model
+        run: |
+          python src/train.py --n-estimators 300
+          python src/evaluate.py
+      - name: Drift check, retrain, gate
+        run: bash monitoring/retrain_if_drift.sh "${{ github.event.inputs.mode || 'normal' }}"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: drift-reports
+          path: reports/
