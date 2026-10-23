@@ -22,6 +22,7 @@ def load_data() -> pd.DataFrame:
 
 
 def main(n_estimators: int, max_depth):
+    os.makedirs("data", exist_ok=True)
     df = load_data()
     train_df, test_df = train_test_split(df, test_size=0.2, random_state=42)
     train_df.to_csv("data/train.csv", index=False)

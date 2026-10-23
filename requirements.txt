@@ -6,3 +6,5 @@ uvicorn
 prometheus-fastapi-instrumentator
 evidently==0.4.40
 pytest
+httpx
+requests
