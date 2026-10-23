@@ -22,7 +22,7 @@ services:
 
   prometheus:
     image: prom/prometheus:v2.54.1
-    ports: ["9090:9090"]
+    ports: ["9095:9090"]
     volumes:
       - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro
 
