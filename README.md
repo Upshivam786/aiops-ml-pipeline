@@ -1,6 +1,7 @@
 # JEV MLOps Pipeline
 
 ![CI](https://github.com/Upshivam786/jev-mlops-pipeline/actions/workflows/ci.yml/badge.svg)
+![Drift retrain](https://github.com/Upshivam786/jev-mlops-pipeline/actions/workflows/drift-retrain.yml/badge.svg)
 
 An end-to-end MLOps demo: train a scikit-learn model, track experiments, gate promotion on quality, serve it over an API, and monitor it in production. Everything runs locally with Docker Compose and is tested in CI.
 
