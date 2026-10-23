@@ -10,8 +10,9 @@ from evidently.report import Report
 FEATURES = [f"f{i}" for i in range(8)]
 
 
-def make_batch(mode: str, n: int = 500) -> pd.DataFrame:
-    batch = pd.read_csv("data/test.csv")[FEATURES].sample(n, random_state=1).copy()
+def make_batch(mode: str, n: int = 300) -> pd.DataFrame:
+    pool = pd.read_csv("data/test.csv")[FEATURES]
+    batch = pool.sample(min(n, len(pool)), random_state=1).copy()
     if mode == "drift":
         batch["f0"] += 2.0   # mean shift
         batch["f1"] -= 1.5   # mean shift
