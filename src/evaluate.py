@@ -1,3 +1,4 @@
+import os
 import sys
 import mlflow
 import mlflow.sklearn
@@ -8,7 +9,7 @@ from sklearn.metrics import f1_score
 THRESHOLD = 0.80
 NAME = "jev-model"
 
-mlflow.set_tracking_uri("sqlite:///mlflow.db")
+mlflow.set_tracking_uri(os.environ.get("MLFLOW_TRACKING_URI", "sqlite:///mlflow.db"))
 client = MlflowClient()
 
 versions = client.search_model_versions(f"name='{NAME}'")

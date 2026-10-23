@@ -1,3 +1,4 @@
+import os
 import mlflow
 import mlflow.sklearn
 import pandas as pd
@@ -6,7 +7,7 @@ from prometheus_client import Counter
 from prometheus_fastapi_instrumentator import Instrumentator
 from pydantic import BaseModel
 
-mlflow.set_tracking_uri("sqlite:///mlflow.db")
+mlflow.set_tracking_uri(os.environ.get("MLFLOW_TRACKING_URI", "sqlite:///mlflow.db"))
 MODEL_URI = "models:/jev-model@production"
 
 model = mlflow.sklearn.load_model(MODEL_URI)

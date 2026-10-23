@@ -1,3 +1,4 @@
+import os
 import argparse
 import mlflow
 import mlflow.sklearn
@@ -7,7 +8,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import f1_score
 from sklearn.model_selection import train_test_split
 
-mlflow.set_tracking_uri("sqlite:///mlflow.db")
+mlflow.set_tracking_uri(os.environ.get("MLFLOW_TRACKING_URI", "sqlite:///mlflow.db"))
 mlflow.set_experiment("jev-model")
 
 
